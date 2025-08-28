@@ -1,0 +1,50 @@
+<div class="jokes-container">
+  <header class="header">
+    <h1>Joke Generator</h1>
+    <p>Get ready to laugh with our collection of jokes!</p>
+  </header>
+
+  <section class="random">
+    <h2>Random Joke</h2>
+    <button class="btn-primary" (click)="fetchRandom()">Get Random Joke</button>
+    <div class="random-result" *ngIf="randomJoke">
+      <div class="joke-card">
+        <p [innerText]="randomJoke?.joke"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="search">
+    <h2>Search Jokes</h2>
+    <div class="controls">
+      <input type="text" placeholder="Enter search term" [(ngModel)]="searchTerm" (keydown.enter)="onSearch()" />
+      <button class="btn-primary" (click)="onSearch()" [disabled]="loading">Search</button>
+    </div>
+
+    <div *ngIf="loading" class="loading">Searching…</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+
+    <div class="groups" *ngIf="!loading && !error">
+      <div class="group">
+        <h3>Short Jokes (<10 words) — {{grouped.short.length}}</h3>
+        <ul>
+          <li *ngFor="let j of grouped.short" [innerHTML]="j.highlighted"></li>
+        </ul>
+      </div>
+
+      <div class="group">
+        <h3>Medium Jokes (<20 words) — {{grouped.medium.length}}</h3>
+        <ul>
+          <li *ngFor="let j of grouped.medium" [innerHTML]="j.highlighted"></li>
+        </ul>
+      </div>
+
+      <div class="group">
+        <h3>Long Jokes (>=20 words) — {{grouped.long.length}}</h3>
+        <ul>
+          <li *ngFor="let j of grouped.long" [innerHTML]="j.highlighted"></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
